@@ -86,13 +86,13 @@ const Chatbot = () => {
   }
 
   return (
-    <div className="fixed bottom-6 right-6 z-[100] font-sans">
+    <div className="fixed bottom-8 right-8 z-[100] font-sans">
       {/* Chat Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`w-16 h-16 rounded-full flex items-center justify-center shadow-2xl transition-all duration-500 hover:scale-110 ${isOpen ? 'bg-black rotate-90 shadow-[0px_0px_20px_rgba(0,0,0,0.3)]' : 'bg-black hover:bg-gray-900 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]'}`}
+        className={`w-16 h-16 rounded-full flex items-center justify-center shadow-sm transition-all duration-500 hover:scale-110 ${isOpen ? 'bg-black rotate-90 shadow-[0px_0px_20px_rgba(0,0,0,0.3)]' : 'bg-black hover:bg-gray-900 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]'}`}
       >
-        {isOpen ? <X size={32} className="text-white" /> : <MessageSquare size={32} className="text-white" />}
+        {isOpen ? <X size={32} className="text-white" /> : <MessageSquare size={32} className="text-white relative right-[2px] top-[2px]" />}
       </button>
 
       {/* Chat Window */}
