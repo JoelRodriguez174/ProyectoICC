@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-bg-main text-primary font-sans min-h-screen relative overflow-x-hidden antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold tracking-tighter uppercase;
+  }
+}
+
+@layer components {
+  /* Scroll Reveal Animations */
+  .reveal {
+    @apply opacity-0 translate-y-8 transition-all duration-1000 ease-out;
+  }
+
+  .reveal-active {
+    @apply opacity-100 translate-y-0;
+  }
+
+  /* Full Screen Sections */
+  .section-hero {
+    @apply relative h-screen w-full flex items-center justify-center overflow-hidden;
+  }
+
+  .overlay {
+    @apply absolute inset-0 bg-black/40 z-10;
+  }
+
+  .content-z {
+    @apply relative z-20;
+  }
+
+  /* Buttons with Door Church style (Solid & Clean) */
+  .btn-primary-door {
+    @apply bg-white text-black px-6 py-4 font-black uppercase tracking-widest text-xs hover:bg-black hover:text-white transition-all duration-500 flex items-center gap-3 w-fit;
+  }
+
+  .btn-outline-door {
+    @apply border-2 border-white text-white px-10 py-4 font-black uppercase tracking-widest text-xs hover:bg-white hover:text-black transition-all duration-500 flex items-center gap-3 w-fit;
+  }
+
+  /* Navigation Link Style */
+  .nav-link {
+    @apply font-black uppercase tracking-widest text-[10px] transition-colors duration-300;
+  }
+}
+
+/* Custom Scrollbar for better aesthetics */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #000;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #333;
+}
