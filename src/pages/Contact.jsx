@@ -1,5 +1,5 @@
 import React from 'react'
-import { MapPin, Phone, Clock, Mail, MessageCircle, Send } from 'lucide-react'
+import { MapPin, Phone, Clock, Mail, Send, MessageCircleMore } from 'lucide-react'
 import InfoCard from '../components/molecules/InfoCard'
 import ChurchMap from '../components/molecules/ChurchMap'
 
@@ -19,7 +19,7 @@ const Contact = () => {
       </div>
 
       {/* Main Content */}
-      <div className="relative z-10 flex-1 pt-32 pb-24 px-6 max-w-7xl mx-auto w-full">
+      <div className="relative z-10 flex-1 pt-32 pb-24 px-6 max-w mx-auto w-full">
         {/* Title Section */}
         <div className="text-center mb-16 reveal-active">
           <h1 className="text-5xl md:text-8xl font-black text-white uppercase tracking-tighter mb-4">Conéctate</h1>
@@ -68,12 +68,8 @@ const Contact = () => {
           <div className="space-y-8">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <a href="https://wa.me/541112345678" target="_blank" rel="noreferrer" className="bg-green-500 text-white border-2 border-black p-8 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] flex flex-col items-center justify-center gap-4 hover:translate-y-[-4px] transition-all">
-                <MessageCircle size={40} strokeWidth={2.5} />
+                <MessageCircleMore size={40} strokeWidth={2.5} />
                 <span className="font-black uppercase tracking-widest text-sm">WhatsApp</span>
-              </a>
-              <a href="tel:+541112345678" className="bg-black text-white border-2 border-black p-8 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] flex flex-col items-center justify-center gap-4 hover:translate-y-[-4px] transition-all">
-                <Phone size={40} strokeWidth={2.5} />
-                <span className="font-black uppercase tracking-widest text-sm">Llámanos</span>
               </a>
             </div>
 
