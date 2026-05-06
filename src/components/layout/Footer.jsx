@@ -8,7 +8,7 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto flex flex-col items-center text-center gap-12">
         <Logo className="w-24 h-24" />
         <div className="flex flex-wrap justify-center gap-8 md:gap-16">
-          <Link to="/contacto" className="nav-link text-white/60 hover:text-white">Ubicación</Link>
+          <Link to="/ubicacion" className="nav-link text-white/60 hover:text-white">Ubicación</Link>
           <Link to="/ministerios" className="nav-link text-white/60 hover:text-white">Ministerios</Link>
           <Link to="/contacto" className="nav-link text-white/60 hover:text-white">Sobre Nosotros</Link>
         </div>
