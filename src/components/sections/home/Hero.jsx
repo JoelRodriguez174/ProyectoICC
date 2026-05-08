@@ -15,14 +15,9 @@ const Hero = () => {
       </div>
       
       <div className="content-z text-center px-6 reveal">
-        <h1 className="text-6xl md:text-9xl font-black text-white leading-none mb-8">
-          BIENVENIDO <br /> A CASA
+        <h1 className="text-5xl md:text-8xl font-black text-white leading-none mb-8">
+          BIENVENIDO <br /> A <br /> CASA DEL ALFARERO
         </h1>
-        <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-          <Link to="/contacto" className="btn-outline-door">
-            VER HORARIOS <ChevronRight size={18} />
-          </Link>
-        </div>
       </div>
       
       {/* Scroll Indicator */}

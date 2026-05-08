@@ -21,7 +21,7 @@ const Header = () => {
 
   return (
     <>
-      <header className={`fixed top-0 z-50 w-full h-24 flex items-center px-4 md:px-8 transition-all duration-500 ${isScrolled ? 'bg-white/95 backdrop-blur-md h-20 shadow-md border-b border-gray-100' : 'bg-transparent'}`}>
+      <header className={`fixed top-0 z-50 w-full h-15 flex items-center px-4 md:px-8 transition-all duration-500 ${isScrolled ? 'bg-white/95 backdrop-blur-md h-15 shadow-md border-b border-gray-100' : 'bg-transparent'}`}>
         <div className="w-full flex items-center justify-between">
           
           <Link to="/" className="flex items-center gap-4 group" onClick={() => { window.scrollTo(0, 0); closeMenu(); }}>
@@ -37,39 +37,12 @@ const Header = () => {
           </Link>
 
           <nav className="hidden lg:flex items-center gap-10">
-            <Link to="/" className={`nav-link ${(isScrolled || isLightPage) ? 'text-black hover:text-gray-400' : 'text-white hover:text-gray-900'}`}>Inicio</Link>
-            <Link to="/ministerios" className={`nav-link ${(isScrolled || isLightPage) ? 'text-black hover:text-gray-400' : 'text-white hover:text-gray-900'}`}>Ministerios</Link>
-            <Link to="/contacto" className={`nav-link ${(isScrolled || isLightPage) ? 'text-black hover:text-gray-400' : 'text-white hover:text-gray-900'}`}>Contacto</Link>
+            <Link to="/" className={`nav-link text-[13px] ${(isScrolled || isLightPage) ? 'text-black hover:text-gray-400' : 'text-white hover:text-gray-900'}`}>Inicio</Link>
+            <Link to="/ministerios" className={`nav-link text-[13px] ${(isScrolled || isLightPage) ? 'text-black hover:text-gray-400' : 'text-white hover:text-gray-900'}`}>Ministerios</Link>
+            <Link to="/contacto" className={`nav-link text-[13px] ${(isScrolled || isLightPage) ? 'text-black hover:text-gray-400' : 'text-white hover:text-gray-900'}`}>Contacto</Link>
           </nav>
-
-          <button 
-            onClick={toggleMenu}
-            className={`lg:hidden p-2 transition-colors duration-500 ${(isScrolled || isLightPage) ? 'text-black' : 'text-white'}`}
-          >
-            <Menu size={36} />
-          </button>
         </div>
       </header>
-
-      <div className={`fixed inset-0 z-[60] transition-all duration-700 ease-in-out ${isMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
-        <div className="absolute inset-0 bg-black/98 flex flex-col items-center justify-center p-12 text-center">
-          <button onClick={closeMenu} className="absolute top-8 right-8 text-white hover:text-gray-400 transition-colors">
-            <X size={48} strokeWidth={1} />
-          </button>
-          <nav className="flex flex-col gap-10">
-            {routes.map((route) => (
-              <Link 
-                key={route.path}
-                to={route.path} 
-                className="text-5xl font-black text-white uppercase tracking-tighter hover:text-gray-400 transition-colors"
-                onClick={closeMenu}
-              >
-                {route.label}
-              </Link>
-            ))}
-          </nav>
-        </div>
-      </div>
     </>
   )
 }

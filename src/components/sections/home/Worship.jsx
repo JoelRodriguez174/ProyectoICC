@@ -17,7 +17,7 @@ const Worship = () => {
         <h2 className="text-5xl md:text-8xl font-black text-white mb-8">
           ÚNETE A <br /> LA ADORACIÓN
         </h2>
-        <Link to="/contacto" className="btn-primary-door">
+        <Link to="/ubicacion" className="btn-primary-door">
           HORARIOS DE SERVICIOS <ChevronRight size={18} />
         </Link>
       </div>
