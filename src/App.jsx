@@ -3,11 +3,12 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { routes } from './routes'
 import Header from './components/layout/Header'
 import Footer from './components/layout/Footer'
-import Chatbot from './components/molecules/Chatbot'
+import ScrollToTop from './components/atoms/ScrollToTop'
 
 function AppContent() {
   return (
     <div className="min-h-screen flex flex-col">
+      <ScrollToTop />
       <Header />
       <main className="flex-1">
         <Routes>
@@ -21,7 +22,6 @@ function AppContent() {
         </Routes>
       </main>
       <Footer />
-      <Chatbot />
     </div>
   )
 }

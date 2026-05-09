@@ -4,8 +4,8 @@ import Logo from '../atoms/Logo'
 
 const Footer = () => {
   return (
-    <footer className="bg-black text-white pt-12 pb-24 px-6 relative z-10">
-      <div className="max-w-7xl mx-auto flex flex-col items-center text-center gap-12">
+    <footer className="bg-black text-white pt-6 pb-24 px-6 relative z-10">
+      <div className="max-w-7xl mx-auto flex flex-col items-center text-center gap-8">
         <Logo className="w-24 h-24" />
         <div className="flex flex-wrap justify-center gap-8 md:gap-16">
           <Link to="/ubicacion" className="nav-link text-white/60 hover:text-white">Ubicación</Link>
