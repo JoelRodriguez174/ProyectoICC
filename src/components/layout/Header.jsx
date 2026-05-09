@@ -80,6 +80,13 @@ const Header = () => {
               Inicio
             </Link>
             <Link 
+              to="/sobre-nosotros" 
+              className="text-sm font-black uppercase tracking-widest text-black hover:bg-black hover:text-white transition-all duration-300 p-2 border-b border-black/5"
+              onClick={closeMenu}
+            >
+              Sobre Nosotros
+            </Link>
+            <Link 
               to="/ministerios" 
               className="text-sm font-black uppercase tracking-widest text-black hover:bg-black hover:text-white transition-all duration-300 p-2 border-b border-black/5"
               onClick={closeMenu}

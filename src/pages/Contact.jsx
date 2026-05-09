@@ -1,9 +1,44 @@
-import React from 'react'
-import { MapPin, Phone, Clock, Mail, Send, MessageCircleMore } from 'lucide-react'
+import React, { useState } from 'react'
+import { MapPin, Phone, Clock, Mail, Send, MessageCircleMore, Loader2, CheckCircle2, AlertCircle } from 'lucide-react'
+import { useForm } from 'react-hook-form'
 import InfoCard from '../components/molecules/InfoCard'
 import ChurchMap from '../components/molecules/ChurchMap'
 
 const Contact = () => {
+  const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm();
+  const [submitStatus, setSubmitStatus] = useState(null); // 'success' | 'error' | null
+
+  const onSubmit = async (data) => {
+    setSubmitStatus(null);
+    try {
+      const accessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
+      
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          access_key: accessKey,
+          ...data,
+          subject: `Nuevo mensaje de contacto: ${data.name}`,
+          from_name: "Web Iglesia Casa del Alfarero",
+        }),
+      });
+
+      const result = await response.json();
+      if (result.success) {
+        setSubmitStatus('success');
+        reset();
+      } else {
+        setSubmitStatus('error');
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      setSubmitStatus('error');
+    }
+  };
 
   return (
     <div className="relative min-h-screen w-full flex flex-col">
@@ -30,34 +65,69 @@ const Contact = () => {
         <div className="flex justify-center mb-24">
           {/* Contact Form */}
           <div className="bg-white border-2 border-black p-8 md:p-12 shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] w-full max-w-2xl">
-            <h2 className="text-3xl font-black uppercase tracking-tighter mb-8">Envíanos un mensaje</h2>
-            <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
+            <h2 className="text-3xl font-black uppercase tracking-tighter mb-8">Envianos tu petición</h2>
+            
+            {submitStatus === 'success' && (
+              <div className="mb-8 p-4 bg-green-50 border-2 border-green-600 text-green-700 flex items-center gap-3 font-bold uppercase tracking-tight">
+                <CheckCircle2 size={24} />
+                ¡Petición enviado con éxito!
+              </div>
+            )}
+
+            {submitStatus === 'error' && (
+              <div className="mb-8 p-4 bg-red-50 border-2 border-red-600 text-red-700 flex items-center gap-3 font-bold uppercase tracking-tight">
+                <AlertCircle size={24} />
+                Hubo un error al enviar tu petición. Por favor, inténtalo de nuevo.
+              </div>
+            )}
+
+            <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
               <div>
                 <label className="block text-xs font-black uppercase tracking-widest mb-2">Nombre Completo</label>
                 <input
                   type="text"
-                  className="w-full border-2 border-black p-4 font-bold focus:outline-none focus:bg-gray-50 transition-colors"
+                  {...register("name", { required: "El nombre es obligatorio" })}
+                  className={`w-full border-2 border-black p-4 font-bold focus:outline-none focus:bg-gray-50 transition-colors ${errors.name ? 'border-red-500' : ''}`}
                   placeholder="Tu nombre..."
                 />
+                {errors.name && <p className="text-red-500 text-xs mt-1 font-bold">{errors.name.message}</p>}
               </div>
               <div>
                 <label className="block text-xs font-black uppercase tracking-widest mb-2">Correo Electrónico</label>
                 <input
                   type="email"
-                  className="w-full border-2 border-black p-4 font-bold focus:outline-none focus:bg-gray-50 transition-colors"
+                  {...register("email", { 
+                    required: "El correo es obligatorio",
+                    pattern: {
+                      value: /\S+@\S+\.\S+/,
+                      message: "Correo electrónico inválido"
+                    }
+                  })}
+                  className={`w-full border-2 border-black p-4 font-bold focus:outline-none focus:bg-gray-50 transition-colors ${errors.email ? 'border-red-500' : ''}`}
                   placeholder="tu@email.com"
                 />
+                {errors.email && <p className="text-red-500 text-xs mt-1 font-bold">{errors.email.message}</p>}
               </div>
               <div>
-                <label className="block text-xs font-black uppercase tracking-widest mb-2">Mensaje o Petición de Oración</label>
+                <label className="block text-xs font-black uppercase tracking-widest mb-2">Petición de Oración</label>
                 <textarea
                   rows="4"
-                  className="w-full border-2 border-black p-4 font-bold focus:outline-none focus:bg-gray-50 transition-colors resize-none"
-                  placeholder="¿En qué podemos ayudarte?"
+                  {...register("message", { required: "El mensaje es obligatorio" })}
+                  className={`w-full border-2 border-black p-4 font-bold focus:outline-none focus:bg-gray-50 transition-colors resize-none ${errors.message ? 'border-red-500' : ''}`}
+                  placeholder="¿Cuál es tu necesidad?"
                 ></textarea>
+                {errors.message && <p className="text-red-500 text-xs mt-1 font-bold">{errors.message.message}</p>}
               </div>
-              <button className="btn-primary-door w-full justify-center py-6 text-sm">
-                ENVIAR MENSAJE <Send size={20} />
+              <button 
+                type="submit"
+                disabled={isSubmitting}
+                className="btn-primary-door w-full justify-center py-6 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isSubmitting ? (
+                  <>ENVIANDO... <Loader2 size={20} className="animate-spin" /></>
+                ) : (
+                  <>ENVIAR PETICIÓN <Send size={20} /></>
+                )}
               </button>
             </form>
           </div>

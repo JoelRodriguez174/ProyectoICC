@@ -27,3 +27,6 @@ dist-ssr
 GEMINI.md
 .cache/
 .temp/
+.env
+.env.local
+.env.*.local

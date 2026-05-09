@@ -10,7 +10,8 @@ const Footer = () => {
         <div className="flex flex-wrap justify-center gap-8 md:gap-16">
           <Link to="/ubicacion" className="nav-link text-white/60 hover:text-white">Ubicación</Link>
           <Link to="/ministerios" className="nav-link text-white/60 hover:text-white">Ministerios</Link>
-          <Link to="/contacto" className="nav-link text-white/60 hover:text-white">Sobre Nosotros</Link>
+          <Link to="/sobre-nosotros" className="nav-link text-white/60 hover:text-white">Sobre Nosotros</Link>
+          <Link to="/contacto" className="nav-link text-white/60 hover:text-white">Contacto</Link>
         </div>
         <p className="text-white/30 text-[10px] font-bold uppercase tracking-[0.3em]">
           3 de febrero 660, Villa Mercedes, San Luis
