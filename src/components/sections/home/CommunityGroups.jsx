@@ -9,8 +9,8 @@ const CommunityGroups = () => {
         <div className="reveal">
           <div className="aspect-[4/3] overflow-hidden bg-black mb-8">
             <img 
-              src="https://images.unsplash.com/photo-1529070538074-18b1cfb92723?auto=format&fit=crop&q=80&w=1000" 
-              alt="Community" 
+              src="https://images.unsplash.com/photo-1543807535-eceef0bc6599?auto=format&fit=crop&q=80&w=1000" 
+              alt="Grupos Pequeños" 
               className="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity duration-700"
             />
           </div>
@@ -26,8 +26,8 @@ const CommunityGroups = () => {
         <div className="reveal" style={{ transitionDelay: '200ms' }}>
           <div className="aspect-[4/3] overflow-hidden bg-black mb-8">
             <img 
-              src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&q=80&w=1000" 
-              alt="Children" 
+              src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&q=80&w=1000" 
+              alt="Jóvenes" 
               className="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity duration-700"
             />
           </div>

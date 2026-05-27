@@ -4,6 +4,7 @@ import Ministerios from './pages/Ministerios'
 import Contact from './pages/Contact'
 import About from './pages/About'
 import { Ubication } from './pages/Ubication'
+import MinistryDetail from './pages/MinistryDetail'
 
 export const routes = [
   {
@@ -30,5 +31,12 @@ export const routes = [
     path: '/ubicacion',
     element: <Ubication />,
     label: 'Ubicacion'
+  },
+  {
+    path: '/ministerios/:slug',
+    element: <MinistryDetail />,
+    label: 'Detalle de Ministerio',
+    hidden: true
   }
 ]
+

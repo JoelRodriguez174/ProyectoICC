@@ -1,7 +1,74 @@
-import React from 'react'
-import { Users, Heart, Shield, Star } from 'lucide-react'
+import React, { useState, useEffect } from 'react'
+import { Users, Heart, Shield, MapPin } from 'lucide-react'
+
+// Detailed Church locations metadata with matching high-quality Unsplash images
+const churchLocations = [
+  {
+    id: 'villa-mercedes',
+    name: 'Casa del Alfarero - Villa Mercedes',
+    city: 'Villa Mercedes, Argentina',
+    address: 'Sede Central - Villa Mercedes, San Luis',
+    details: 'Sede central de nuestro ministerio. Una congregación comprometida con impactar la ciudad de Villa Mercedes y extender el Reino de Dios. Contamos con ministerios activos de niños, jóvenes, grupos de conexión en hogares y una fuerte labor de ayuda y contención social.',
+    image: 'https://images.unsplash.com/photo-1478147427282-58a87a120781?auto=format&fit=crop&q=80&w=1000'
+  },
+  {
+    id: 'madrid',
+    name: 'Casa del Alfarero - Madrid',
+    city: 'Madrid, España',
+    address: 'Madrid Centro, España',
+    details: 'Llevando el amor de Dios al corazón de España. Servimos activamente a las familias de la comunidad local e inmigrante a través de servicios de adoración contemporánea, discipulado continuo y grupos de jóvenes con propósito.',
+    image: 'https://images.unsplash.com/photo-1539650116574-8efeb43e2750?auto=format&fit=crop&q=80&w=1000'
+  },
+  {
+    id: 'miami',
+    name: 'Casa del Alfarero - Miami',
+    city: 'Miami, EE. UU.',
+    address: 'Miami, Florida, Estados Unidos',
+    details: 'Un faro de fe, esperanza y compañerismo en el sur de la Florida. Nos enfocamos en levantar una generación apasionada por Cristo en un ambiente multicultural, ofreciendo reuniones familiares y actividades para estudiantes.',
+    image: 'https://images.unsplash.com/photo-1506422748879-887454f9dbf4?auto=format&fit=crop&q=80&w=1000'
+  },
+  {
+    id: 'mexico',
+    name: 'Casa del Alfarero - Ciudad de México',
+    city: 'Ciudad de México, México',
+    address: 'CDMX, México',
+    details: 'Reuniendo y restaurando vidas a través del evangelio en una de las urbes más grandes del mundo. Enfocados en el crecimiento espiritual, la oración comunitaria y el apoyo activo a familias en áreas vulnerables.',
+    image: 'https://images.unsplash.com/photo-1512813583145-baaa340ef29f?auto=format&fit=crop&q=80&w=1000'
+  },
+  {
+    id: 'roma',
+    name: 'Casa del Alfarero - Roma',
+    city: 'Roma, Italia',
+    address: 'Roma Centro, Italia',
+    details: 'Estableciendo una comunidad de fe y hermandad cristiana en la histórica capital italiana. Un espacio abierto para conocer más de la palabra de Dios, compartir en familia y servir con amor y dedicación.',
+    image: 'https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&q=80&w=1000'
+  }
+]
 
 const About = () => {
+  // Default selection is the headquarters (Villa Mercedes)
+  const [selectedChurch, setSelectedChurch] = useState(churchLocations[0])
+
+  // Setup scroll animations
+  useEffect(() => {
+    const observerOptions = {
+      threshold: 0.1
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('reveal-active')
+        }
+      })
+    }, observerOptions)
+
+    const revealElements = document.querySelectorAll('.reveal')
+    revealElements.forEach(el => observer.observe(el))
+
+    return () => observer.disconnect()
+  }, [])
+
   return (
     <div className="relative min-h-screen w-full flex flex-col">
       {/* Fixed Background Image */}
@@ -25,7 +92,7 @@ const About = () => {
         </div>
 
         {/* Content Sections */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-24">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-24 reveal">
           <div className="bg-white border-2 border-black p-8 shadow-[12px_12px_0px_0px_rgba(0,0,0,1)]">
             <h2 className="text-3xl font-black uppercase tracking-tighter mb-6 flex items-center gap-3">
               Nuestra Misión
@@ -51,8 +118,81 @@ const About = () => {
           </div>
         </div>
 
+        {/* Dynamic Churches Section (Replacing the mapamundi) */}
+        <div className="bg-black/60 border-2 border-white/10 p-6 md:p-12 backdrop-blur-md text-white mb-24 reveal">
+          <div className="mb-10">
+            <span className="text-[10px] font-black uppercase tracking-[0.4em] text-gray-400">Presencia Global</span>
+            <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter mt-2 leading-none">
+              Nuestras Iglesias
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-start">
+            {/* List of Churches (1/3 Width) */}
+            <div className="flex flex-col gap-3">
+              {churchLocations.map((church) => {
+                const isSelected = selectedChurch.id === church.id
+                return (
+                  <button
+                    key={church.id}
+                    onClick={() => setSelectedChurch(church)}
+                    className={`text-left px-5 py-4 font-black uppercase tracking-widest text-[11px] border-2 transition-all duration-300 ${
+                      isSelected 
+                        ? 'bg-white text-black border-white shadow-[6px_6px_0px_0px_rgba(255,255,255,0.2)]' 
+                        : 'bg-transparent text-white border-white/20 hover:border-white/60'
+                    }`}
+                  >
+                    {church.city}
+                  </button>
+                )
+              })}
+            </div>
+
+            {/* Selected Church Detail panel (2/3 Width) */}
+            <div className="lg:col-span-2 bg-zinc-950/40 border border-white/10 p-6 md:p-8 flex flex-col md:flex-row gap-8 shadow-2xl">
+              
+              {/* Church City Image */}
+              <div className="w-full md:w-1/2 aspect-[4/3] md:aspect-[3/4] overflow-hidden border border-white/10 relative group">
+                <img 
+                  src={selectedChurch.image} 
+                  alt={selectedChurch.name} 
+                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-out"
+                />
+                <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500" />
+              </div>
+
+              {/* Church Description Card */}
+              <div className="w-full md:w-1/2 flex flex-col justify-between">
+                <div>
+                  <h3 className="text-2xl md:text-3xl font-black uppercase tracking-tighter leading-tight mb-2">
+                    {selectedChurch.name}
+                  </h3>
+                  <div className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-gray-400 mb-6">
+                    <MapPin size={14} className="text-red-500" />
+                    <span>{selectedChurch.address}</span>
+                  </div>
+                  <p className="text-sm text-gray-300 leading-relaxed font-medium">
+                    {selectedChurch.details}
+                  </p>
+                </div>
+                
+                {/* Modern Footer tag */}
+                <div className="mt-8 pt-4 border-t border-white/10 flex items-center justify-between">
+                  <span className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-500">
+                    Casa del Alfarero Network
+                  </span>
+                  <span className="text-[9px] font-bold text-white uppercase bg-red-600 px-2 py-0.5 tracking-wider">
+                    {selectedChurch.id === 'villa-mercedes' ? 'Sede Central' : 'Misión'}
+                  </span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
         {/* Values Section */}
-        <div className="bg-black/50 backdrop-blur-md border-2 border-white/20 p-12 text-white">
+        <div className="bg-black/50 backdrop-blur-md border-2 border-white/20 p-12 text-white reveal">
           <h2 className="text-4xl font-black uppercase tracking-tighter mb-12 text-center">Nuestros Valores</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
             <div>

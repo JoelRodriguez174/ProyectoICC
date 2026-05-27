@@ -1,5 +1,6 @@
 import React from 'react'
 import { ChevronRight } from 'lucide-react'
+import { Link } from 'react-router-dom'
 
 const NewHere = () => {
   return (
@@ -7,9 +8,9 @@ const NewHere = () => {
       <h2 className="text-5xl md:text-8xl font-black text-white mb-12">¿ERES NUEVO?</h2>
       <p className="text-white/40 font-bold uppercase tracking-[0.4em] mb-12">Queremos conocerte y acompañarte</p>
       <div className="flex justify-center">
-        <button className="btn-primary-door">
+        <Link to="/contacto" className="btn-primary-door inline-flex items-center gap-2">
           ESTOY INTERESADO <ChevronRight size={18} />
-        </button>
+        </Link>
       </div>
     </section>
   )

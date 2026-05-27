@@ -34,6 +34,7 @@ const Ministerios = () => {
           {ministries.map((m) => (
             <MinistryCard 
               key={m.id}
+              slug={m.slug}
               title={m.title}
               description={m.description}
               image={m.image}
