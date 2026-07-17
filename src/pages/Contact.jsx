@@ -3,10 +3,23 @@ import { MapPin, Phone, Clock, Mail, Send, MessageCircleMore, Loader2, CheckCirc
 import { useForm } from 'react-hook-form';
 import InfoCard from '../components/molecules/InfoCard';
 import ChurchMap from '../components/molecules/ChurchMap';
-import onSubmit from '../utils/submitMail';
+import submitMail from '../utils/submitMail';
 
 const Contact = () => {
   const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm();
+  const [submitStatus, setSubmitStatus] = useState(null); // 'success' | 'error' | null
+
+  const onSubmit = async (data) => {
+    setSubmitStatus(null);
+    try {
+      await submitMail(data);
+      setSubmitStatus('success');
+      reset();
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      setSubmitStatus('error');
+    }
+  };
 
   return (
     <div className="relative min-h-screen w-full flex flex-col">

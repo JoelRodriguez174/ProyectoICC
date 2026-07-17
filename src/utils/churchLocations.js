@@ -1,5 +1,3 @@
-import { LoopRepeat } from "three";
-
 // Detailed Church locations metadata with matching high-quality Unsplash images
 export const churchLocations = [
   {
