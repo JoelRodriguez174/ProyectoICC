@@ -1,49 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Users, Heart, Shield, MapPin } from 'lucide-react'
-
-// Detailed Church locations metadata with matching high-quality Unsplash images
-const churchLocations = [
-  {
-    id: 'villa-mercedes',
-    name: 'Casa del Alfarero - Villa Mercedes',
-    city: 'Villa Mercedes, Argentina',
-    address: 'Sede Central - Villa Mercedes, San Luis',
-    details: 'Sede central de nuestro ministerio. Una congregación comprometida con impactar la ciudad de Villa Mercedes y extender el Reino de Dios. Contamos con ministerios activos de niños, jóvenes, grupos de conexión en hogares y una fuerte labor de ayuda y contención social.',
-    image: 'https://images.unsplash.com/photo-1478147427282-58a87a120781?auto=format&fit=crop&q=80&w=1000'
-  },
-  {
-    id: 'madrid',
-    name: 'Casa del Alfarero - Madrid',
-    city: 'Madrid, España',
-    address: 'Madrid Centro, España',
-    details: 'Llevando el amor de Dios al corazón de España. Servimos activamente a las familias de la comunidad local e inmigrante a través de servicios de adoración contemporánea, discipulado continuo y grupos de jóvenes con propósito.',
-    image: 'https://images.unsplash.com/photo-1539650116574-8efeb43e2750?auto=format&fit=crop&q=80&w=1000'
-  },
-  {
-    id: 'miami',
-    name: 'Casa del Alfarero - Miami',
-    city: 'Miami, EE. UU.',
-    address: 'Miami, Florida, Estados Unidos',
-    details: 'Un faro de fe, esperanza y compañerismo en el sur de la Florida. Nos enfocamos en levantar una generación apasionada por Cristo en un ambiente multicultural, ofreciendo reuniones familiares y actividades para estudiantes.',
-    image: 'https://images.unsplash.com/photo-1506422748879-887454f9dbf4?auto=format&fit=crop&q=80&w=1000'
-  },
-  {
-    id: 'mexico',
-    name: 'Casa del Alfarero - Ciudad de México',
-    city: 'Ciudad de México, México',
-    address: 'CDMX, México',
-    details: 'Reuniendo y restaurando vidas a través del evangelio en una de las urbes más grandes del mundo. Enfocados en el crecimiento espiritual, la oración comunitaria y el apoyo activo a familias en áreas vulnerables.',
-    image: 'https://images.unsplash.com/photo-1512813583145-baaa340ef29f?auto=format&fit=crop&q=80&w=1000'
-  },
-  {
-    id: 'roma',
-    name: 'Casa del Alfarero - Roma',
-    city: 'Roma, Italia',
-    address: 'Roma Centro, Italia',
-    details: 'Estableciendo una comunidad de fe y hermandad cristiana en la histórica capital italiana. Un espacio abierto para conocer más de la palabra de Dios, compartir en familia y servir con amor y dedicación.',
-    image: 'https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&q=80&w=1000'
-  }
-]
+import { churchLocations } from '../utils/churchLocations'
 
 const About = () => {
   // Default selection is the headquarters (Villa Mercedes)
@@ -177,12 +134,9 @@ const About = () => {
                 </div>
                 
                 {/* Modern Footer tag */}
-                <div className="mt-8 pt-4 border-t border-white/10 flex items-center justify-between">
-                  <span className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-500">
-                    Casa del Alfarero Network
-                  </span>
+                <div className="mt-8 pt-4 border-t border-white/10 flex items-center justify-end">
                   <span className="text-[9px] font-bold text-white uppercase bg-red-600 px-2 py-0.5 tracking-wider">
-                    {selectedChurch.id === 'villa-mercedes' ? 'Sede Central' : 'Misión'}
+                    {selectedChurch.id === 'devoto' ? 'Sede Central' : 'Misión'}
                   </span>
                 </div>
               </div>

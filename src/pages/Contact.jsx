@@ -1,44 +1,12 @@
-import React, { useState } from 'react'
-import { MapPin, Phone, Clock, Mail, Send, MessageCircleMore, Loader2, CheckCircle2, AlertCircle } from 'lucide-react'
-import { useForm } from 'react-hook-form'
-import InfoCard from '../components/molecules/InfoCard'
-import ChurchMap from '../components/molecules/ChurchMap'
+import React, { useState } from 'react';
+import { MapPin, Phone, Clock, Mail, Send, MessageCircleMore, Loader2, CheckCircle2, AlertCircle } from 'lucide-react';
+import { useForm } from 'react-hook-form';
+import InfoCard from '../components/molecules/InfoCard';
+import ChurchMap from '../components/molecules/ChurchMap';
+import onSubmit from '../utils/submitMail';
 
 const Contact = () => {
   const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm();
-  const [submitStatus, setSubmitStatus] = useState(null); // 'success' | 'error' | null
-
-  const onSubmit = async (data) => {
-    setSubmitStatus(null);
-    try {
-      const accessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
-      
-      const response = await fetch("https://api.web3forms.com/submit", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify({
-          access_key: accessKey,
-          ...data,
-          subject: `Nuevo mensaje de contacto: ${data.name}`,
-          from_name: "Web Iglesia Casa del Alfarero",
-        }),
-      });
-
-      const result = await response.json();
-      if (result.success) {
-        setSubmitStatus('success');
-        reset();
-      } else {
-        setSubmitStatus('error');
-      }
-    } catch (error) {
-      console.error("Error submitting form:", error);
-      setSubmitStatus('error');
-    }
-  };
 
   return (
     <div className="relative min-h-screen w-full flex flex-col">
@@ -66,7 +34,7 @@ const Contact = () => {
           {/* Contact Form */}
           <div className="bg-white border-2 border-black p-8 md:p-12 shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] w-full max-w-2xl">
             <h2 className="text-3xl font-black uppercase tracking-tighter mb-8">Envianos tu petición</h2>
-            
+
             {submitStatus === 'success' && (
               <div className="mb-8 p-4 bg-green-50 border-2 border-green-600 text-green-700 flex items-center gap-3 font-bold uppercase tracking-tight">
                 <CheckCircle2 size={24} />
@@ -96,7 +64,7 @@ const Contact = () => {
                 <label className="block text-xs font-black uppercase tracking-widest mb-2">Correo Electrónico</label>
                 <input
                   type="email"
-                  {...register("email", { 
+                  {...register("email", {
                     required: "El correo es obligatorio",
                     pattern: {
                       value: /\S+@\S+\.\S+/,
@@ -118,7 +86,7 @@ const Contact = () => {
                 ></textarea>
                 {errors.message && <p className="text-red-500 text-xs mt-1 font-bold">{errors.message.message}</p>}
               </div>
-              <button 
+              <button
                 type="submit"
                 disabled={isSubmitting}
                 className="btn-primary-door w-full justify-center py-6 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
@@ -137,4 +105,4 @@ const Contact = () => {
   )
 }
 
-export default Contact
+export default Contact;
