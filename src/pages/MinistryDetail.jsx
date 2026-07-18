@@ -14,10 +14,23 @@ const MinistryDetail = () => {
   const [activeVideoUrl, setActiveVideoUrl] = useState('')
   const [activeVideoTitle, setActiveVideoTitle] = useState('')
 
+  // Create a combined list of the featured video and the gallery videos
+  const allVideos = ministry ? [
+    {
+      id: 'featured',
+      title: `Video Destacado - ${ministry.title}`,
+      videoUrl: ministry.featuredVideo,
+      duration: "Principal",
+      thumbnail: ministry.image,
+      isFeatured: true
+    },
+    ...(ministry.galleryVideos || [])
+  ] : []
+
   useEffect(() => {
     if (ministry) {
       setActiveVideoUrl(ministry.featuredVideo)
-      setActiveVideoTitle("Video Destacado")
+      setActiveVideoTitle(`Video Destacado - ${ministry.title}`)
     }
   }, [ministry])
 
@@ -84,39 +97,53 @@ const MinistryDetail = () => {
           </p>
         </div>
 
-        {/* Main Video Section */}
-        <div className="mb-16 reveal">
-          <div className="bg-black border-2 border-white/10 shadow-2xl p-2 rounded-sm">
-            <div className="relative aspect-video w-full overflow-hidden bg-zinc-950 border border-white/5">
-              {activeVideoUrl && (
-                <iframe
-                  src={activeVideoUrl}
-                  title={ministry.title}
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
-                  className="absolute inset-0 w-full h-full"
-                ></iframe>
-              )}
-            </div>
-            <div className="py-4 px-3 flex justify-between items-center bg-zinc-900 border-t border-white/5">
-              <div>
-                <span className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-400">Reproduciendo ahora</span>
-                <h3 className="text-sm md:text-base font-bold uppercase tracking-tight text-white mt-1">
-                  {activeVideoTitle}
-                </h3>
+        {/* Main Video & Playlist Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start mb-16 reveal">
+          {/* Main Video Player Column (2/3) */}
+          <div className="lg:col-span-2 space-y-4">
+            <div className="bg-black border-2 border-white/10 shadow-2xl p-2 rounded-sm">
+              <div className="relative aspect-video w-full overflow-hidden bg-zinc-950 border border-white/5">
+                {activeVideoUrl && (
+                  <iframe
+                    src={activeVideoUrl}
+                    title={activeVideoTitle}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                    className="absolute inset-0 w-full h-full"
+                  ></iframe>
+                )}
+              </div>
+              <div className="py-4 px-4 flex flex-wrap justify-between items-center bg-zinc-900 border-t border-white/5 gap-4">
+                <div className="min-w-0 flex-1">
+                  <span className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-400">
+                    {activeVideoUrl === ministry.featuredVideo ? 'Video Destacado' : 'Reproduciendo ahora'}
+                  </span>
+                  <h3 className="text-sm md:text-base font-bold uppercase tracking-tight text-white mt-1 truncate">
+                    {activeVideoTitle}
+                  </h3>
+                </div>
+                {activeVideoUrl !== ministry.featuredVideo && (
+                  <button
+                    onClick={() => {
+                      setActiveVideoUrl(ministry.featuredVideo)
+                      setActiveVideoTitle(`Video Destacado - ${ministry.title}`)
+                    }}
+                    className="px-4 py-2 text-[10px] font-black uppercase tracking-widest bg-white text-black hover:bg-black hover:text-white border border-white transition-all duration-300 rounded-sm flex-shrink-0"
+                  >
+                    Volver al destacado
+                  </button>
+                )}
               </div>
             </div>
           </div>
-        </div>
 
-        {/* Video Gallery Section */}
-        {ministry.galleryVideos && ministry.galleryVideos.length > 0 && (
-          <div className="reveal">
-            <h2 className="text-xl md:text-2xl font-black uppercase tracking-widest mb-8 border-b border-white/10 pb-4">
-              Videos Relacionados
+          {/* Playlist Column (1/3) */}
+          <div className="bg-zinc-950/40 border border-white/10 p-4 rounded-sm flex flex-col w-full">
+            <h2 className="text-sm font-black uppercase tracking-widest mb-4 border-b border-white/10 pb-2 text-white">
+              Lista de Videos
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {ministry.galleryVideos.map((video) => {
+            <div className="flex flex-col gap-3 overflow-y-auto scrollbar-dark pr-1 max-h-[350px] lg:max-h-[420px]">
+              {allVideos.map((video) => {
                 const isActive = activeVideoUrl === video.videoUrl
                 return (
                   <div 
@@ -124,30 +151,37 @@ const MinistryDetail = () => {
                     onClick={() => {
                       setActiveVideoUrl(video.videoUrl)
                       setActiveVideoTitle(video.title)
-                      window.scrollTo({ top: 350, behavior: 'smooth' })
+                      // Smooth scroll back to player on small screens where stack is vertical
+                      if (window.innerWidth < 1024) {
+                        window.scrollTo({ top: 350, behavior: 'smooth' })
+                      }
                     }}
-                    className={`group cursor-pointer bg-zinc-900/60 hover:bg-zinc-900 border-2 transition-all p-4 flex gap-4 ${isActive ? 'border-white' : 'border-white/10'}`}
+                    className={`group cursor-pointer bg-zinc-900/40 hover:bg-zinc-900 border transition-all p-3 flex gap-3 ${
+                      isActive ? 'border-white bg-zinc-900/80 shadow-[4px_4px_0px_0px_rgba(255,255,255,0.15)]' : 'border-white/10 hover:border-white/40'
+                    }`}
                   >
-                    <div className="relative w-1/3 aspect-[16/10] overflow-hidden bg-black flex-shrink-0">
+                    <div className="relative w-24 aspect-[16/10] overflow-hidden bg-black flex-shrink-0">
                       <img 
                         src={video.thumbnail} 
                         alt={video.title} 
-                        className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500"
+                        className={`w-full h-full object-cover group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500 ${
+                          isActive ? 'grayscale-0' : 'grayscale'
+                        }`}
                       />
                       <div className="absolute inset-0 bg-black/40 flex items-center justify-center group-hover:bg-black/10 transition-colors">
-                        <div className="p-2 bg-white/10 backdrop-blur-sm rounded-full text-white border border-white/20">
-                          <Play size={14} className="fill-white" />
+                        <div className="p-1 bg-white/10 backdrop-blur-sm rounded-full text-white border border-white/20">
+                          <Play size={10} className="fill-white" />
                         </div>
                       </div>
                     </div>
-                    <div className="flex flex-col justify-between flex-1">
-                      <div>
-                        <h3 className="text-sm font-bold uppercase tracking-tight leading-snug line-clamp-2 text-white group-hover:text-gray-200 transition-colors">
-                          {video.title}
-                        </h3>
-                      </div>
-                      <div className="flex items-center gap-1.5 text-[10px] text-gray-400 font-bold uppercase tracking-wider">
-                        <Clock size={10} /> {video.duration}
+                    <div className="flex flex-col justify-between flex-1 min-w-0">
+                      <h3 className={`text-[11px] font-bold uppercase tracking-tight leading-snug line-clamp-2 transition-colors ${
+                        isActive ? 'text-white' : 'text-gray-300 group-hover:text-white'
+                      }`}>
+                        {video.title}
+                      </h3>
+                      <div className="flex items-center gap-1 text-[8px] text-gray-400 font-bold uppercase tracking-wider mt-1">
+                        <Clock size={8} /> {video.duration}
                       </div>
                     </div>
                   </div>
@@ -155,7 +189,7 @@ const MinistryDetail = () => {
               })}
             </div>
           </div>
-        )}
+        </div>
 
       </div>
     </div>

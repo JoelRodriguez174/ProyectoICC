@@ -86,7 +86,7 @@ const About = () => {
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-start">
             {/* List of Churches (1/3 Width) */}
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-3 max-h-[300px] lg:max-h-[480px] overflow-y-auto scrollbar-dark pr-2">
               {churchLocations.map((church) => {
                 const isSelected = selectedChurch.id === church.id
                 return (

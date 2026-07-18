@@ -43,11 +43,11 @@ const Header = () => {
 
           {/* Desktop Nav */}
           <nav className="hidden lg:flex items-center gap-10">
-            <Link to="/" className={`nav-link text-[13px] ${(isScrolled || isLightPage) ? 'text-black hover:text-gray-400' : 'text-white hover:text-gray-900'}`}>Inicio</Link>
-            <Link to="/sobre-nosotros" className={`nav-link text-[13px] ${(isScrolled || isLightPage) ? 'text-black hover:text-gray-400' : 'text-white hover:text-gray-900'}`}>Sobre Nosotros</Link>
-            <Link to="/ministerios" className={`nav-link text-[13px] ${(isScrolled || isLightPage) ? 'text-black hover:text-gray-400' : 'text-white hover:text-gray-900'}`}>Ministerios</Link>
-            <Link to="/ubicacion" className={`nav-link text-[13px] ${(isScrolled || isLightPage) ? 'text-black hover:text-gray-400' : 'text-white hover:text-gray-900'}`}>Ubicación</Link>
-            <Link to="/contacto" className={`nav-link text-[13px] ${(isScrolled || isLightPage) ? 'text-black hover:text-gray-400' : 'text-white hover:text-gray-900'}`}>Contacto</Link>
+            <Link to="/" className={`nav-link text-[13px] ${(isScrolled || isLightPage) ? 'text-black hover:text-gray-400' : 'text-white hover:text-gray-800'}`}>Inicio</Link>
+            <Link to="/sobre-nosotros" className={`nav-link text-[13px] ${(isScrolled || isLightPage) ? 'text-black hover:text-gray-400' : 'text-white hover:text-gray-800'}`}>Sobre Nosotros</Link>
+            <Link to="/ministerios" className={`nav-link text-[13px] ${(isScrolled || isLightPage) ? 'text-black hover:text-gray-400' : 'text-white hover:text-gray-800'}`}>Ministerios</Link>
+            <Link to="/ubicacion" className={`nav-link text-[13px] ${(isScrolled || isLightPage) ? 'text-black hover:text-gray-400' : 'text-white hover:text-gray-800'}`}>Ubicación</Link>
+            <Link to="/contacto" className={`nav-link text-[13px] ${(isScrolled || isLightPage) ? 'text-black hover:text-gray-400' : 'text-white hover:text-gray-800'}`}>Contacto</Link>
           </nav>
 
           {/* Mobile Menu Toggle */}

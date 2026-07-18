@@ -66,3 +66,23 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #333;
 }
+
+/* Custom scrollbar for dark sections */
+.scrollbar-dark::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.scrollbar-dark::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.scrollbar-dark::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+}
+
+.scrollbar-dark::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
