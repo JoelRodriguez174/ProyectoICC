@@ -5,7 +5,7 @@ import { routes } from '../../routes'
 import Logo from '../atoms/Logo'
 import useStore from '../../store/useStore'
 
-const Header = () => {
+function Header() {
   const { isMenuOpen, toggleMenu, closeMenu, isScrolled, setIsScrolled } = useStore()
   const location = useLocation()
   
@@ -30,7 +30,7 @@ const Header = () => {
         <div className="w-full flex items-center justify-between">
           
           <Link to="/" className="flex items-center gap-4 group" onClick={() => { window.scrollTo(0, 0); closeMenu(); }}>
-            <Logo className="w-14 h-14 md:w-16 md:h-16" />
+            <Logo className="w-14 h-14 mt-2 md:w-16 md:h-16" />
             <div className="flex flex-col leading-none">
               <span className={`text-xl md:text-2xl font-black uppercase tracking-tighter transition-colors duration-500 ${(isScrolled || isLightPage) ? 'text-black' : 'text-white'}`}>
                 Iglesia
@@ -47,6 +47,7 @@ const Header = () => {
             <Link to="/sobre-nosotros" className={`nav-link text-[13px] ${(isScrolled || isLightPage) ? 'text-black hover:text-gray-400' : 'text-white hover:text-gray-800'}`}>Sobre Nosotros</Link>
             <Link to="/ministerios" className={`nav-link text-[13px] ${(isScrolled || isLightPage) ? 'text-black hover:text-gray-400' : 'text-white hover:text-gray-800'}`}>Ministerios</Link>
             <Link to="/ubicacion" className={`nav-link text-[13px] ${(isScrolled || isLightPage) ? 'text-black hover:text-gray-400' : 'text-white hover:text-gray-800'}`}>Ubicación</Link>
+            <Link to="/calendario" className={`nav-link text-[13px] ${(isScrolled || isLightPage) ? 'text-black hover:text-gray-400' : 'text-white hover:text-gray-800'}`}>Calendario</Link>
             <Link to="/contacto" className={`nav-link text-[13px] ${(isScrolled || isLightPage) ? 'text-black hover:text-gray-400' : 'text-white hover:text-gray-800'}`}>Contacto</Link>
           </nav>
 
@@ -94,6 +95,13 @@ const Header = () => {
               onClick={closeMenu}
             >
               Ministerios
+            </Link>
+            <Link 
+              to="/calendario" 
+              className="text-sm font-black uppercase tracking-widest text-black hover:bg-black hover:text-white transition-all duration-300 p-2 border-b border-black/5"
+              onClick={closeMenu}
+            >
+              Calendario
             </Link>
             <Link 
               to="/contacto" 

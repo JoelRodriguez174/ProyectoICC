@@ -16,7 +16,7 @@ const Hero = () => {
       
       <div className="content-z text-center px-6 reveal">
         <h1 className="text-5xl md:text-8xl font-black text-white leading-none mb-8">
-          BIENVENIDO <br /> A <br /> CASA DEL ALFARERO
+          BIENVENIDO <br /> A LA<br /> CASA DEL ALFARERO
         </h1>
       </div>
       

@@ -5,11 +5,11 @@ import { Link } from 'react-router-dom'
 const NewHere = () => {
   return (
     <section className="bg-black pt-40 pb-6 px-6 text-center reveal">
-      <h2 className="text-5xl md:text-8xl font-black text-white mb-12">¿ERES NUEVO?</h2>
-      <p className="text-white/40 font-bold uppercase tracking-[0.4em] mb-12">Queremos conocerte y acompañarte</p>
+      <h2 className="text-5xl md:text-8xl font-black text-white mb-12">¿SOS NUEVO?</h2>
+      <p className="text-white/40 font-bold uppercase tracking-[0.4em] mb-12">Queremos conocerte</p>
       <div className="flex justify-center">
         <Link to="/contacto" className="btn-primary-door inline-flex items-center gap-2">
-          ESTOY INTERESADO <ChevronRight size={18} />
+          CONTACTARSE <ChevronRight size={18} />
         </Link>
       </div>
     </section>

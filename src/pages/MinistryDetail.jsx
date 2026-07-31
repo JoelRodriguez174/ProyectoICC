@@ -5,16 +5,17 @@ import useStore from '../store/useStore'
 
 const MinistryDetail = () => {
   const { slug } = useParams()
-  const { ministries } = useStore()
+  const { ministries, fetchMinistries, isLoadingMinistries } = useStore()
   
-  // Find the current ministry
+  useEffect(() => {
+    fetchMinistries()
+  }, [fetchMinistries])
+
   const ministry = ministries.find((m) => m.slug === slug)
 
-  // Track the current playing video in the main player
   const [activeVideoUrl, setActiveVideoUrl] = useState('')
   const [activeVideoTitle, setActiveVideoTitle] = useState('')
 
-  // Create a combined list of the featured video and the gallery videos
   const allVideos = ministry ? [
     {
       id: 'featured',
@@ -45,7 +46,6 @@ const MinistryDetail = () => {
     )
   }
 
-  // IntersectionObserver for scroll animations
   useEffect(() => {
     const observerOptions = {
       threshold: 0.1
@@ -67,7 +67,6 @@ const MinistryDetail = () => {
 
   return (
     <div className="relative min-h-screen w-full flex flex-col bg-bg-main">
-      {/* Background Cover Image with Dark Overlay */}
       <div className="fixed inset-0 z-0">
         <img 
           src={ministry.image} 
@@ -77,17 +76,13 @@ const MinistryDetail = () => {
         <div className="absolute inset-0 bg-black/80"></div>
       </div>
 
-      {/* Main Content Container */}
       <div className="relative z-10 flex-1 pt-32 pb-24 px-4 md:px-12 max-w-6xl mx-auto w-full text-white">
-        
-        {/* Navigation Breadcrumb */}
         <div className="mb-8">
           <Link to="/ministerios" className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-widest text-gray-400 hover:text-white transition-colors duration-300">
             <ArrowLeft size={14} /> Volver a Ministerios
           </Link>
         </div>
 
-        {/* Title and Description */}
         <div className="mb-12 reveal">
           <h1 className="text-4xl md:text-7xl font-black uppercase tracking-tighter leading-none mb-6">
             {ministry.title}
@@ -97,9 +92,7 @@ const MinistryDetail = () => {
           </p>
         </div>
 
-        {/* Main Video & Playlist Section */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start mb-16 reveal">
-          {/* Main Video Player Column (2/3) */}
           <div className="lg:col-span-2 space-y-4">
             <div className="bg-black border-2 border-white/10 shadow-2xl p-2 rounded-sm">
               <div className="relative aspect-video w-full overflow-hidden bg-zinc-950 border border-white/5">
@@ -137,7 +130,6 @@ const MinistryDetail = () => {
             </div>
           </div>
 
-          {/* Playlist Column (1/3) */}
           <div className="bg-zinc-950/40 border border-white/10 p-4 rounded-sm flex flex-col w-full">
             <h2 className="text-sm font-black uppercase tracking-widest mb-4 border-b border-white/10 pb-2 text-white">
               Lista de Videos

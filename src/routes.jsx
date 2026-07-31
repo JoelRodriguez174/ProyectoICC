@@ -5,6 +5,7 @@ import Contact from './pages/Contact'
 import About from './pages/About'
 import { Ubication } from './pages/Ubication'
 import MinistryDetail from './pages/MinistryDetail'
+import Calendar from './pages/Calendar'
 
 export const routes = [
   {
@@ -31,6 +32,11 @@ export const routes = [
     path: '/ubicacion',
     element: <Ubication />,
     label: 'Ubicacion'
+  },
+  {
+    path: '/calendario',
+    element: <Calendar />,
+    label: 'Calendario'
   },
   {
     path: '/ministerios/:slug',

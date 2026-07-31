@@ -28,7 +28,7 @@ function AppContent() {
 
 function App() {
   return (
-    <Router basename="/ProyectoICC">
+    <Router basename="/ProyectoICC/">
       <AppContent />
     </Router>
   )
