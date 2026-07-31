@@ -6,6 +6,8 @@ import Footer from './components/layout/Footer'
 import ScrollToTop from './components/atoms/ScrollToTop'
 
 function AppContent() {
+  const homeRoute = routes.find((route) => route.path === '/')
+
   return (
     <div className="min-h-screen flex flex-col">
       <ScrollToTop />
@@ -19,6 +21,9 @@ function AppContent() {
               element={route.element} 
             />
           ))}
+          {homeRoute && (
+            <Route path="" element={homeRoute.element} />
+          )}
         </Routes>
       </main>
       <Footer />
@@ -28,7 +33,7 @@ function AppContent() {
 
 function App() {
   return (
-    <Router basename="/ProyectoICC/">
+    <Router basename="/ProyectoICC">
       <AppContent />
     </Router>
   )

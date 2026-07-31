@@ -6,9 +6,14 @@ import useStore from '../store/useStore'
 const MinistryDetail = () => {
   const { slug } = useParams()
   const { ministries, fetchMinistries, isLoadingMinistries } = useStore()
+  const [hasLoaded, setHasLoaded] = useState(ministries.length > 0)
   
   useEffect(() => {
-    fetchMinistries()
+    const load = async () => {
+      await fetchMinistries()
+      setHasLoaded(true)
+    }
+    load()
   }, [fetchMinistries])
 
   const ministry = ministries.find((m) => m.slug === slug)
@@ -35,17 +40,6 @@ const MinistryDetail = () => {
     }
   }, [ministry])
 
-  if (!ministry) {
-    return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-black text-white p-6">
-        <h2 className="text-3xl font-black uppercase tracking-tighter mb-4">Ministerio no encontrado</h2>
-        <Link to="/ministerios" className="btn-outline-door flex items-center gap-3">
-          <ArrowLeft size={16} /> VOLVER A MINISTERIOS
-        </Link>
-      </div>
-    )
-  }
-
   useEffect(() => {
     const observerOptions = {
       threshold: 0.1
@@ -64,6 +58,27 @@ const MinistryDetail = () => {
 
     return () => observer.disconnect()
   }, [ministry, activeVideoUrl])
+
+  if (isLoadingMinistries || !hasLoaded) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center bg-zinc-950 text-white p-6">
+        <div className="animate-pulse text-sm font-black uppercase tracking-widest text-gray-400">
+          Cargando ministerio...
+        </div>
+      </div>
+    )
+  }
+
+  if (!ministry) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center bg-black text-white p-6">
+        <h2 className="text-3xl font-black uppercase tracking-tighter mb-4">Ministerio no encontrado</h2>
+        <Link to="/ministerios" className="btn-outline-door flex items-center gap-3">
+          <ArrowLeft size={16} /> VOLVER A MINISTERIOS
+        </Link>
+      </div>
+    )
+  }
 
   return (
     <div className="relative min-h-screen w-full flex flex-col bg-bg-main">
