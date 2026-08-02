@@ -21,7 +21,13 @@ export const getCombinedEvents = (y, m, d, dbEvents = []) => {
     return e.start_date === dateStr
   })
   
-  return [...recurrent, ...dbEventsFiltered]
+  // Si hay eventos especiales programados en la BD para hoy,
+  // suplantan por completo a los servicios recurrentes estándar de ese día
+  if (dbEventsFiltered.length > 0) {
+    return dbEventsFiltered
+  }
+  
+  return recurrent
 }
 
 /**
