@@ -69,6 +69,12 @@ const useStore = create((set, get) => ({
   // Fetcheo de los eventos del calendario desde Supabase
   fetchEvents: async () => {
     const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
+    if (!supabaseUrl) {
+      console.warn('VITE_SUPABASE_URL no está configurado.')
+      set({ events: [] })
+      return
+    }
+
     set({ isLoadingEvents: true, eventsError: null })
     try {
       const { data, error } = await supabase
@@ -81,7 +87,7 @@ const useStore = create((set, get) => ({
       set({ events: data || [] })
     } catch (err) {
       console.error('Error fetching calendar events from Supabase:', err)
-      set({ eventsError: err.message, events: getFallbackEvents() })
+      set({ eventsError: err.message, events: [] })
     } finally {
       set({ isLoadingEvents: false })
     }
