@@ -16,6 +16,11 @@ const useStore = create((set, get) => ({
   isLoadingMinistries: false,
   ministriesError: null,
 
+  // Events State
+  events: [],
+  isLoadingEvents: false,
+  eventsError: null,
+
   // Fetcheo de los ministerios desde Supabase
   fetchMinistries: async () => {
     const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
@@ -58,6 +63,27 @@ const useStore = create((set, get) => ({
       set({ ministriesError: err.message })
     } finally {
       set({ isLoadingMinistries: false })
+    }
+  },
+
+  // Fetcheo de los eventos del calendario desde Supabase
+  fetchEvents: async () => {
+    const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
+    set({ isLoadingEvents: true, eventsError: null })
+    try {
+      const { data, error } = await supabase
+        .from('calendar_events')
+        .select('*')
+        .order('start_date', { ascending: true })
+
+      if (error) throw error
+
+      set({ events: data || [] })
+    } catch (err) {
+      console.error('Error fetching calendar events from Supabase:', err)
+      set({ eventsError: err.message, events: getFallbackEvents() })
+    } finally {
+      set({ isLoadingEvents: false })
     }
   }
 }))

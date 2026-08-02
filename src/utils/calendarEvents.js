@@ -1,10 +1,10 @@
 export function getEventsForDate(year, month, day) {
   const date = new Date(year, month, day)
-  const dayOfWeek = date.getDay() // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
+  const dayOfWeek = date.getDay()
   const events = []
 
-  // Weekly services
-  if (dayOfWeek === 3) { // Wednesday
+  // Servicios de Dom y Mie
+  if (dayOfWeek === 3) { 
     events.push({
       id: `wed-${year}-${month}-${day}`,
       title: "Servicio General",
@@ -12,7 +12,7 @@ export function getEventsForDate(year, month, day) {
       category: "servicio",
     })
   }
-  if (dayOfWeek === 6) { // Saturday
+  if (dayOfWeek === 6) { 
     events.push({
       id: `sat-${year}-${month}-${day}`,
       title: "Evangelizmo",
@@ -20,7 +20,7 @@ export function getEventsForDate(year, month, day) {
       category: "evangelizmo",
     })
   }
-  if (dayOfWeek === 0) { // Sunday
+  if (dayOfWeek === 0) { 
     events.push({
       id: `sun-morn-${year}-${month}-${day}`,
       title: "Servicio General",
