@@ -3,7 +3,7 @@ export function getEventsForDate(year, month, day) {
   const dayOfWeek = date.getDay()
   const events = []
 
-  // Servicios de Miércoles, Sábado y Domingo (formato de 24 hs: 00:00 - 23:59 hs)
+  // Servicios de Miércoles, Sábado y Domingo
   if (dayOfWeek === 3) { 
     events.push({
       id: `wed-${year}-${month}-${day}`,
