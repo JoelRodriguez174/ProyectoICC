@@ -32,8 +32,10 @@ function AppContent() {
 }
 
 function App() {
+  const baseUrl = import.meta.env.BASE_URL || '/'
+
   return (
-    <Router basename="/ProyectoICC/">
+    <Router basename={baseUrl}>
       <AppContent />
     </Router>
   )
