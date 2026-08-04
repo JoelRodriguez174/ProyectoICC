@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import Hero from '../components/sections/home/Hero'
+import SpontaneousEventSection from '../components/sections/home/SpontaneousEventSection'
 import Vision from '../components/sections/home/Vision'
 import Worship from '../components/sections/home/Worship'
 import CommunityGroups from '../components/sections/home/CommunityGroups'
@@ -28,6 +29,7 @@ const Home = () => {
   return (
     <div className="w-full">
       <Hero />
+      <SpontaneousEventSection />
       <Vision />
       <Worship />
       <CommunityGroups />

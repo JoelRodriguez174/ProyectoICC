@@ -1,10 +1,22 @@
 import React, { useState, useEffect } from 'react'
-import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, MapPin, Clock } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, MapPin, Clock, ArrowRight } from 'lucide-react'
 import useStore from '../store/useStore'
 import { MONTHS, DAYS_OF_WEEK, generateGridItems, getUpcomingSpecialEvents, formatEventDate } from '../utils/calendarHelpers'
+import EventDetailModal from '../components/molecules/EventDetailModal'
+
+const formatTimeDisplay = (timeVal) => {
+  if (!timeVal) return ''
+  if (typeof timeVal === 'string') return timeVal
+  if (Array.isArray(timeVal) && timeVal.length > 0) {
+    return timeVal.map(t => (t.day ? `${t.day}: ${t.time}` : t.time || '')).join(', ')
+  }
+  return ''
+}
 
 function Calendar() {
   const [currentDate, setCurrentDate] = useState(new Date())
+  const [selectedEvent, setSelectedEvent] = useState(null)
+  const [isModalOpen, setIsModalOpen] = useState(false)
   const { events, fetchEvents, isLoadingEvents } = useStore()
 
   useEffect(() => {
@@ -20,6 +32,11 @@ function Calendar() {
 
   const handleNextMonth = () => {
     setCurrentDate(new Date(year, month + 1, 1))
+  }
+
+  const handleOpenEventModal = (ev) => {
+    setSelectedEvent(ev)
+    setIsModalOpen(true)
   }
 
   const gridItems = generateGridItems(year, month, events)
@@ -41,7 +58,7 @@ function Calendar() {
         <div className="text-center mb-16 reveal-active">
           <h1 className="text-5xl md:text-8xl font-black text-white uppercase tracking-tighter mb-4">Calendario</h1>
           <p className="text-white/60 text-lg md:text-xl font-medium max-w-2xl mx-auto uppercase tracking-widest">
-            Nuestras reuniones y actividades
+            Nuestras reuniones y actividades especiales
           </p>
         </div>
 
@@ -110,24 +127,27 @@ function Calendar() {
                       <div className="flex flex-col gap-1 mt-1.5 w-full overflow-hidden">
                         {dayEvents.map((ev, evIdx) => {
                           let catClass = 'border-l-2 border-white pl-1.5 text-white'
-                          if (ev.category === 'campaña') {
-                            catClass = 'text-white px-1.5 py-0.5 font-bold border-l-2 border-red-500' 
+                          if (ev.category === 'campaña' || ev.category === 'retiro') {
+                            catClass = 'text-white px-1.5 py-0.5 font-bold border-l-2 border-red-500 bg-red-600/20' 
                           } else if (ev.category === 'especial') {
-                            catClass = 'text-white px-1.5 py-0.5 font-bold border-l-2 border-yellow-500'
+                            catClass = 'text-white px-1.5 py-0.5 font-bold border-l-2 border-yellow-500 bg-yellow-500/10'
                           }
 
+                          const formattedTime = formatTimeDisplay(ev.time)
+
                           return (
-                            <div 
+                            <button 
                               key={evIdx}
+                              onClick={() => handleOpenEventModal(ev)}
                               className={`
                                 text-[7px] md:text-[9px] font-black uppercase tracking-wider leading-tight w-full truncate text-left
-                                ${catClass}
+                                hover:brightness-125 transition-all cursor-pointer ${catClass}
                               `}
-                              title={`${ev.time} - ${ev.title}`}
+                              title={`${formattedTime} - ${ev.title}`}
                             >
-                              <span className="block text-[6px] md:text-[8px] opacity-80 font-semibold">{ev.time}</span>
+                              <span className="block text-[6px] md:text-[8px] opacity-80 font-semibold truncate">{formattedTime}</span>
                               <span className="block truncate">{ev.title}</span>
-                            </div>
+                            </button>
                           )
                         })}
                       </div>
@@ -141,7 +161,7 @@ function Calendar() {
           <div className="w-full">
             <div className="bg-white/5 backdrop-blur-md p-6 border border-white/5 text-white">
               <h3 className="text-lg font-black tracking-widest uppercase mb-6 pb-3 border-b border-white/10 flex items-center gap-2">
-                <CalendarIcon size={18} className="text-white" />
+                <CalendarIcon size={18} className="text-red-500" />
                 <span>Eventos Especiales</span>
               </h3>
 
@@ -155,71 +175,84 @@ function Calendar() {
                 </div>
               ) : (
                 <div className="flex flex-col gap-5">
-                  {upcomingEvents.map((ev) => (
-                    <div 
-                      key={ev.id}
-                      className="group relative bg-white/5 border border-white/5 hover:bg-white/10 hover:border-white/15 p-4 transition-all duration-500 hover:-translate-y-0.5"
-                    >
-                      <div className="absolute top-4 right-4">
-                        <span className={`text-[8px] font-black uppercase tracking-widest px-2 py-0.5 
-                          ${ev.category === 'campaña' ? 'bg-red-500 text-white'
-                            : 'bg-yellow-500 text-black'
-                          }`}
-                        >
-                          {ev.category}
-                        </span>
-                      </div>
+                  {upcomingEvents.map((ev) => {
+                    const formattedTime = formatTimeDisplay(ev.time)
 
-                      {/* Fecha formateada de alto impacto */}
-                      <div className="flex items-baseline gap-1.5 mb-2">
-                        <span className="text-3xl font-black tracking-tighter leading-none">
-                          {ev.start_date.split('-')[2]}
-                        </span>
-                        <span className="text-xs font-black tracking-[0.2em] text-white/50">
-                          {formatEventDate(ev.start_date).split(' ')[1]} -
-                        </span>
-                        <span className="text-3xl font-black tracking-tighter leading-none">
-                          {ev.end_date.split('-')[2]}
-                        </span>
-                        <span className="text-xs font-black tracking-[0.2em] text-white/50">
-                          {formatEventDate(ev.end_date).split(' ')[1]}
-                        </span>
-                      </div>
+                    return (
+                      <div 
+                        key={ev.id}
+                        onClick={() => handleOpenEventModal(ev)}
+                        className="group relative bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/30 p-5 transition-all duration-500 hover:-translate-y-0.5 cursor-pointer"
+                      >
+                        <div className="absolute top-4 right-4">
+                          <span className={`text-[8px] font-black uppercase tracking-widest px-2.5 py-1 
+                            ${ev.category === 'campaña' || ev.category === 'retiro' ? 'bg-red-600 text-white'
+                              : 'bg-yellow-500 text-black'
+                            }`}
+                          >
+                            {ev.category || 'ESPECIAL'}
+                          </span>
+                        </div>
 
-                      {/* Título y descripción */}
-                      <h4 className="text-base font-black uppercase tracking-wide mb-2 leading-tight group-hover:text-white transition-colors">
-                        {ev.title}
-                      </h4>
-                      
-                      {ev.description && (
-                        <p className="text-xs text-white/60 leading-relaxed font-medium mb-4 normal-case">
-                          {ev.description}
-                        </p>
-                      )}
+                        {/* Fecha formateada de alto impacto */}
+                        <div className="flex items-baseline gap-1.5 mb-3">
+                          <span className="text-3xl font-black tracking-tighter leading-none text-white">
+                            {ev.start_date ? ev.start_date.split('-')[2] : '16'}
+                          </span>
+                          <span className="text-xs font-black tracking-[0.2em] text-white/50">
+                            {formatEventDate(ev.start_date).split(' ')[1] || 'OCT'} -
+                          </span>
+                          <span className="text-3xl font-black tracking-tighter leading-none text-white">
+                            {ev.end_date ? ev.end_date.split('-')[2] : '18'}
+                          </span>
+                          <span className="text-xs font-black tracking-[0.2em] text-white/50">
+                            {formatEventDate(ev.end_date).split(' ')[1] || 'OCT'}
+                          </span>
+                        </div>
 
-                      {/* Detalles: Hora y Lugar */}
-                      <div className="flex flex-wrap gap-x-4 gap-y-2 pt-3 border-t border-white/5 text-[10px] font-bold uppercase tracking-widest text-white/60">
-                        {ev.time && (
-                          <div className="flex items-center gap-1">
-                            <Clock size={12} className="opacity-80" />
-                            <span>{ev.time}</span>
-                          </div>
+                        {/* Título y descripción */}
+                        <h4 className="text-base font-black uppercase tracking-wide mb-2 leading-tight group-hover:text-red-400 transition-colors">
+                          {ev.title}
+                        </h4>
+                        
+                        {ev.description && (
+                          <p className="text-xs text-white/70 leading-relaxed font-normal mb-4 line-clamp-2">
+                            {ev.description}
+                          </p>
                         )}
-                        {ev.location && (
-                          <div className="flex items-center gap-1">
-                            <MapPin size={12} className="opacity-80" />
-                            <span>{ev.location || 'villa mercedes' }</span>
+
+                        {/* Detalles: Hora, Lugar y CTA */}
+                        <div className="flex flex-wrap items-center justify-between gap-y-2 pt-3 border-t border-white/10 text-[10px] font-bold uppercase tracking-widest text-white/70">
+                          {formattedTime && (
+                            <div className="flex items-center gap-1 max-w-[60%] truncate">
+                              <Clock size={12} className="text-red-500 flex-shrink-0" />
+                              <span className="truncate">{formattedTime}</span>
+                            </div>
+                          )}
+                          <div className="flex items-center gap-1 text-white group-hover:translate-x-1 transition-transform ml-auto">
+                            <span className="text-[9px] font-black text-red-400">VER DETALLES DEL EVENTO</span>
+                            <ArrowRight size={12} className="text-red-400" />
                           </div>
-                        )}
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    )
+                  })}
                 </div>
               )}
             </div>
           </div>
         </div>
       </div>
+
+      {/* Modal interactivo para ver detalles */}
+      <EventDetailModal
+        event={selectedEvent}
+        isOpen={isModalOpen}
+        onClose={() => {
+          setIsModalOpen(false)
+          setSelectedEvent(null)
+        }}
+      />
     </div>
   )
 }

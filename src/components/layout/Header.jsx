@@ -4,6 +4,7 @@ import { Menu, X } from 'lucide-react'
 import { routes } from '../../routes'
 import Logo from '../atoms/Logo'
 import useStore from '../../store/useStore'
+import { getActiveAnnouncement } from '../../utils/headerHelpers'
 
 function Header() {
   const { isMenuOpen, toggleMenu, closeMenu, isScrolled, setIsScrolled, events, fetchEvents } = useStore()
@@ -23,64 +24,12 @@ function Header() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [setIsScrolled])
 
-  // Close menu when route changes
+  // Cerrar menu cuando la ruta cambia
   useEffect(() => {
     closeMenu()
   }, [location, closeMenu])
 
-  // Determinar si hay un anuncio activo para eventos importantes (hoy o en los próximos 3 días)
-  const getActiveAnnouncement = () => {
-    if (!events || events.length === 0) return null
-
-    const today = new Date()
-    const pad = (n) => String(n).padStart(2, '0')
-    const todayStr = `${today.getFullYear()}-${pad(today.getMonth() + 1)}-${pad(today.getDate())}`
-
-    // 1. Buscar evento programado para hoy (o activo hoy si dura varios días)
-    const eventToday = events.find(e => {
-      if (e.end_date) {
-        return todayStr >= e.start_date && todayStr <= e.end_date
-      }
-      return e.start_date === todayStr
-    })
-    
-    if (eventToday) {
-      const isMultiDay = eventToday.end_date && eventToday.start_date !== eventToday.end_date
-      return {
-        type: 'today',
-        text: isMultiDay 
-          ? `¡ACTIVO HOY! ${eventToday.title} - ${eventToday.time} en ${eventToday.location || 'Templo Central'}`
-          : `¡HOY! ${eventToday.title} - ${eventToday.time} en ${eventToday.location || 'Templo Central'}`,
-        event: eventToday
-      }
-    }
-
-    // 2. Buscar evento más cercano en los próximos 3 días
-    const threeDaysFromNow = new Date()
-    threeDaysFromNow.setDate(today.getDate() + 3)
-    const threeDaysStr = `${threeDaysFromNow.getFullYear()}-${pad(threeDaysFromNow.getMonth() + 1)}-${pad(threeDaysFromNow.getDate())}`
-
-    const nextEvents = events
-      .filter(e => {
-        return e.start_date > todayStr && e.start_date <= threeDaysStr
-      })
-      .sort((a, b) => new Date(a.start_date) - new Date(b.start_date))
-
-    if (nextEvents.length > 0) {
-      const nextEv = nextEvents[0]
-      const dateParts = nextEv.start_date.split('-')
-      const formattedDate = `${dateParts[2]}/${dateParts[1]}`
-      return {
-        type: 'upcoming',
-        text: `PRÓXIMO EVENTO (${formattedDate}): ${nextEv.title} a las ${nextEv.time}`,
-        event: nextEv
-      }
-    }
-
-    return null
-  }
-
-  const announcement = getActiveAnnouncement()
+  const announcement = getActiveAnnouncement(events)
 
   return (
     <>

@@ -11,7 +11,7 @@ export const getCombinedEvents = (y, m, d, dbEvents = []) => {
   const recurrent = getEventsForDate(y, m, d)
   const pad = (n) => String(n).padStart(2, '0')
   const dateStr = `${y}-${pad(m + 1)}-${pad(d)}`
-  
+
   const dbEventsFiltered = dbEvents.filter((e) => {
     if (e.end_date) {
       // Si tiene fecha de finalización, se muestra en todos los días del rango
@@ -66,7 +66,7 @@ export const generateGridItems = (year, month, dbEvents = []) => {
     })
   }
 
-  // Calculo de los dias del proximo més
+  // Calculo de los dias del proximo mes
   const remainingCells = 42 - gridItems.length
   for (let n = 1; n <= remainingCells; n++) {
     const nextMonthIndex = month === 11 ? 0 : month + 1
@@ -84,12 +84,14 @@ export const generateGridItems = (year, month, dbEvents = []) => {
 }
 
 /**
- * Filtra y ordena los eventos que empiezan desde hoy.
+ * Filtra y ordena los eventos que empiezan desde hoy provenientes de la BD.
  */
 export const getUpcomingSpecialEvents = (dbEvents = [], limit = 4) => {
+  if (!dbEvents || dbEvents.length === 0) return []
+
   const today = new Date()
   today.setHours(0, 0, 0, 0)
-  
+
   return dbEvents
     .filter(e => {
       const eventDate = new Date(e.start_date + 'T00:00:00')
@@ -103,6 +105,7 @@ export const getUpcomingSpecialEvents = (dbEvents = [], limit = 4) => {
  * Formatea la fecha
  */
 export const formatEventDate = (dateStr) => {
+  if (!dateStr) return ''
   const dateObj = new Date(dateStr + 'T00:00:00')
   const options = { day: 'numeric', month: 'short' }
   return dateObj.toLocaleDateString('es-ES', options).toUpperCase()

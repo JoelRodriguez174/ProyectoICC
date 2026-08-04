@@ -1,12 +1,22 @@
 import React, { useState, useEffect } from 'react'
 import { Users, Heart, Shield, MapPin } from 'lucide-react'
-import { churchLocations } from '../utils/churchLocations'
+import useStore from '../store/useStore'
 
 const About = () => {
-  // Default selection is the headquarters (Villa Mercedes)
-  const [selectedChurch, setSelectedChurch] = useState(churchLocations[0])
+  const { churches, fetchChurches, isLoadingChurches } = useStore()
+  const [selectedChurch, setSelectedChurch] = useState(null)
 
-  // Setup scroll animations
+  useEffect(() => {
+    fetchChurches()
+  }, [fetchChurches])
+
+  useEffect(() => {
+    if (churches && churches.length > 0 && !selectedChurch) {
+      setSelectedChurch(churches[0])
+    }
+  }, [churches, selectedChurch])
+
+  // Configuración de animaciones de scroll
   useEffect(() => {
     const observerOptions = {
       threshold: 0.1
@@ -51,11 +61,11 @@ const About = () => {
         {/* Content Sections */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-24 reveal">
           <div className="bg-white border-2 border-black p-8 shadow-[12px_12px_0px_0px_rgba(0,0,0,1)]">
-            <h2 className="text-3xl font-black uppercase tracking-tighter mb-6 flex items-center gap-3">
+            <h2 className="text-3xl font-black uppercase tracking-tighter mb-6 flex items-center gap-3 text-black">
               Nuestra Misión
             </h2>
-            <p className="font-bold text-lg leading-relaxed mb-4">
-              Existimos para glorificar a Dios haciendo discípulos de Jesucristo que vivan y compartan el Evangelio en Villa Mercedes y más allá.
+            <p className="font-bold text-lg leading-relaxed mb-4 text-black">
+              Existimos para glorificar a Dios haciendo discípulos de Jesucristo que vivan y compartan el Evangelio.
             </p>
             <p className="text-black/70 font-medium">
               Creemos en una iglesia vibrante, bíblica y comprometida con la transformación de vidas a través del amor de Dios.
@@ -63,10 +73,10 @@ const About = () => {
           </div>
 
           <div className="bg-white border-2 border-black p-8 shadow-[12px_12px_0px_0px_rgba(0,0,0,1)]">
-            <h2 className="text-3xl font-black uppercase tracking-tighter mb-6 flex items-center gap-3">
+            <h2 className="text-3xl font-black uppercase tracking-tighter mb-6 flex items-center gap-3 text-black">
               Nuestra Familia
             </h2>
-            <p className="font-bold text-lg leading-relaxed mb-4">
+            <p className="font-bold text-lg leading-relaxed mb-4 text-black">
               Iglesia Casa del Alfarero es más que una organización; es una comunidad de creyentes que se apoyan mutuamente.
             </p>
             <p className="text-black/70 font-medium">
@@ -75,77 +85,93 @@ const About = () => {
           </div>
         </div>
 
-        {/* Dynamic Churches Section (Replacing the mapamundi) */}
+        {/* Secciones de Iglesias / Sedes desde Supabase BD */}
         <div className="bg-black/60 border-2 border-white/10 p-6 md:p-12 backdrop-blur-md text-white mb-24 reveal">
           <div className="mb-10">
-            <span className="text-[10px] font-black uppercase tracking-[0.4em] text-gray-400">Presencia Global</span>
+            <span className="text-[10px] font-black uppercase tracking-[0.4em] text-gray-400">Nuestra Presencia</span>
             <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter mt-2 leading-none">
               Nuestras Iglesias
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-start">
-            {/* List of Churches (1/3 Width) */}
-            <div className="flex flex-col gap-3 max-h-[300px] lg:max-h-[480px] overflow-y-auto scrollbar-dark pr-2">
-              {churchLocations.map((church) => {
-                const isSelected = selectedChurch.id === church.id
-                return (
-                  <button
-                    key={church.id}
-                    onClick={() => setSelectedChurch(church)}
-                    className={`text-left px-5 py-4 font-black uppercase tracking-widest text-[11px] border-2 transition-all duration-300 ${
-                      isSelected 
-                        ? 'bg-white text-black border-white shadow-[6px_6px_0px_0px_rgba(255,255,255,0.2)]' 
-                        : 'bg-transparent text-white border-white/20 hover:border-white/60'
-                    }`}
-                  >
-                    {church.city}
-                  </button>
-                )
-              })}
+          {isLoadingChurches ? (
+            <div className="py-16 text-center text-white/50 font-bold uppercase tracking-widest animate-pulse">
+              Cargando iglesias desde la base de datos...
             </div>
-
-            {/* Selected Church Detail panel (2/3 Width) */}
-            <div className="lg:col-span-2 bg-zinc-950/40 border border-white/10 p-6 md:p-8 flex flex-col md:flex-row gap-8 shadow-2xl">
-              
-              {/* Church City Image */}
-              <div className="w-full md:w-1/2 aspect-[4/3] md:aspect-[3/4] overflow-hidden border border-white/10 relative group">
-                <img 
-                  src={selectedChurch.image} 
-                  alt={selectedChurch.name} 
-                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-out"
-                />
-                <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500" />
+          ) : churches.length === 0 ? (
+            <div className="py-16 text-center text-white/40 font-bold uppercase tracking-widest border border-white/10 p-8">
+              No hay ubicaciones registradas en la base de datos de Supabase (Tabla `churches`).
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-start">
+              {/* Lista de Iglesias de la BD (1/3 Width) */}
+              <div className="flex flex-col gap-3 max-h-[300px] lg:max-h-[480px] overflow-y-auto scrollbar-dark pr-2">
+                {churches.map((church) => {
+                  const isSelected = selectedChurch && (selectedChurch.id === church.id || selectedChurch.name === church.name)
+                  return (
+                    <button
+                      key={church.id || church.name}
+                      onClick={() => setSelectedChurch(church)}
+                      className={`text-left px-5 py-4 font-black uppercase tracking-widest text-[11px] border-2 transition-all duration-300 ${
+                        isSelected 
+                          ? 'bg-white text-black border-white shadow-[6px_6px_0px_0px_rgba(255,255,255,0.2)]' 
+                          : 'bg-transparent text-white border-white/20 hover:border-white/60'
+                      }`}
+                    >
+                      {church.city || church.name}
+                    </button>
+                  )
+                })}
               </div>
 
-              {/* Church Description Card */}
-              <div className="w-full md:w-1/2 flex flex-col justify-between">
-                <div>
-                  <h3 className="text-2xl md:text-3xl font-black uppercase tracking-tighter leading-tight mb-2">
-                    {selectedChurch.name}
-                  </h3>
-                  <div className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-gray-400 mb-6">
-                    <MapPin size={14} className="text-red-500" />
-                    <span>{selectedChurch.address}</span>
+              {/* Detalle de la Iglesia seleccionada desde la BD (2/3 Width) */}
+              {selectedChurch && (
+                <div className="lg:col-span-2 bg-zinc-950/40 border border-white/10 p-6 md:p-8 flex flex-col md:flex-row gap-8 shadow-2xl">
+                  
+                  {/* Foto de la Sede */}
+                  <div className="w-full md:w-1/2 aspect-[4/3] md:aspect-[3/4] overflow-hidden border border-white/10 relative group bg-neutral-900">
+                    <img 
+                      src={selectedChurch.image || "https://images.unsplash.com/photo-1478147427282-58a87a120781?auto=format&fit=crop&q=80&w=1000"} 
+                      alt={selectedChurch.name} 
+                      className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-out"
+                    />
+                    <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500" />
                   </div>
-                  <p className="text-sm text-gray-300 leading-relaxed font-medium">
-                    {selectedChurch.details}
-                  </p>
-                </div>
-                
-                {/* Modern Footer tag */}
-                <div className="mt-8 pt-4 border-t border-white/10 flex items-center justify-end">
-                  <span className="text-[9px] font-bold text-white uppercase bg-red-600 px-2 py-0.5 tracking-wider">
-                    {selectedChurch.id === 'devoto' ? 'Sede Central' : 'Misión'}
-                  </span>
-                </div>
-              </div>
 
+                  {/* Descripción de la Sede */}
+                  <div className="w-full md:w-1/2 flex flex-col justify-between">
+                    <div>
+                      <h3 className="text-2xl md:text-3xl font-black uppercase tracking-tighter leading-tight mb-2">
+                        {selectedChurch.name}
+                      </h3>
+                      {selectedChurch.address && (
+                        <div className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-gray-400 mb-6">
+                          <MapPin size={14} className="text-red-500 flex-shrink-0" />
+                          <span>{selectedChurch.address}</span>
+                        </div>
+                      )}
+                      {selectedChurch.details && (
+                        <p className="text-sm text-gray-300 leading-relaxed font-medium">
+                          {selectedChurch.details}
+                        </p>
+                      )}
+                    </div>
+                    
+                    {/* Etiqueta de Sede Central o Misión */}
+                    <div className="mt-8 pt-4 border-t border-white/10 flex items-center justify-end">
+                      <span className="text-[9px] font-bold text-white uppercase bg-red-600 px-2 py-0.5 tracking-wider">
+                        {selectedChurch.is_central ? 'Sede Central' : 'Misión'}
+                      </span>
+                    </div>
+                  </div>
+
+                </div>
+              )}
             </div>
-          </div>
+          )}
         </div>
 
-        {/* Values Section */}
+        {/* Valores Section */}
         <div className="bg-black/50 backdrop-blur-md border-2 border-white/20 p-12 text-white reveal">
           <h2 className="text-4xl font-black uppercase tracking-tighter mb-12 text-center">Nuestros Valores</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
