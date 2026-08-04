@@ -156,13 +156,6 @@ const About = () => {
                         </p>
                       )}
                     </div>
-                    
-                    {/* Etiqueta de Sede Central o Misión */}
-                    <div className="mt-8 pt-4 border-t border-white/10 flex items-center justify-end">
-                      <span className="text-[9px] font-bold text-white uppercase bg-red-600 px-2 py-0.5 tracking-wider">
-                        {selectedChurch.is_central ? 'Sede Central' : 'Misión'}
-                      </span>
-                    </div>
                   </div>
 
                 </div>
