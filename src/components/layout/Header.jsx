@@ -84,50 +84,57 @@ function Header() {
         </div>
       </header>
 
-      {/* Mobile Sidebar Menu (1/4 Width) */}
+      {/* Mobile Sidebar Menu */}
       <div 
         className={`fixed inset-0 z-40 lg:hidden transition-opacity duration-300 ${isMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
         onClick={closeMenu}
       >
-        <div className="absolute inset-0 bg-black/20 backdrop-blur-[2px]" />
+        <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
       </div>
 
       <div 
-        className={`fixed top-0 right-0 z-50 h-full w-1/4 min-w-[120px] bg-white/60 backdrop-blur-lg shadow-2xl transform transition-transform duration-500 ease-in-out lg:hidden flex flex-col ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}
+        className={`fixed top-0 right-0 z-50 h-full w-2/4 sm:w-80 max-w-xs bg-white/40 backdrop-blur-xl shadow-2xl transform transition-transform duration-500 ease-in-out lg:hidden flex flex-col ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}
       >
-        <div className="flex flex-col h-full pt-24 px-4">
-          <nav className="flex flex-col gap-6">
+        <div className="flex flex-col h-full pt-24 px-10">
+          <nav className="flex flex-col gap-4">
             <Link 
               to="/" 
-              className="text-sm font-black uppercase tracking-widest text-black hover:bg-black hover:text-white transition-all duration-300 p-2 border-b border-black/5"
+              className="text-sm font-black uppercase tracking-widest text-black hover:bg-black hover:text-white transition-all duration-300 p-3 rounded-sm border-b border-black/5 flex items-center justify-between"
               onClick={closeMenu}
             >
               Inicio
             </Link>
             <Link 
               to="/sobre-nosotros" 
-              className="text-sm font-black uppercase tracking-widest text-black hover:bg-black hover:text-white transition-all duration-300 p-2 border-b border-black/5"
+              className="text-sm font-black uppercase tracking-widest text-black hover:bg-black hover:text-white transition-all duration-300 p-3 rounded-sm border-b border-black/5 flex items-center justify-between"
               onClick={closeMenu}
             >
               Sobre Nosotros
             </Link>
             <Link 
               to="/ministerios" 
-              className="text-sm font-black uppercase tracking-widest text-black hover:bg-black hover:text-white transition-all duration-300 p-2 border-b border-black/5"
+              className="text-sm font-black uppercase tracking-widest text-black hover:bg-black hover:text-white transition-all duration-300 p-3 rounded-sm border-b border-black/5 flex items-center justify-between"
               onClick={closeMenu}
             >
               Ministerios
             </Link>
             <Link 
+              to="/ubicacion" 
+              className="text-sm font-black uppercase tracking-widest text-black hover:bg-black hover:text-white transition-all duration-300 p-3 rounded-sm border-b border-black/5 flex items-center justify-between"
+              onClick={closeMenu}
+            >
+              Ubicación
+            </Link>
+            <Link 
               to="/calendario" 
-              className="text-sm font-black uppercase tracking-widest text-black hover:bg-black hover:text-white transition-all duration-300 p-2 border-b border-black/5"
+              className="text-sm font-black uppercase tracking-widest text-black hover:bg-black hover:text-white transition-all duration-300 p-3 rounded-sm border-b border-black/5 flex items-center justify-between"
               onClick={closeMenu}
             >
               Calendario
             </Link>
             <Link 
               to="/contacto" 
-              className="text-sm font-black uppercase tracking-widest text-black hover:bg-black hover:text-white transition-all duration-300 p-2 border-b border-black/5"
+              className="text-sm font-black uppercase tracking-widest text-black hover:bg-black hover:text-white transition-all duration-300 p-3 rounded-sm border-b border-black/5 flex items-center justify-between"
               onClick={closeMenu}
             >
               Contacto
@@ -135,9 +142,9 @@ function Header() {
           </nav>
           
           <div className="mt-auto mb-8 flex flex-col items-center text-center">
-            <Logo className="w-10 h-10 grayscale opacity-30 mb-2" />
-            <span className="text-[8px] font-bold uppercase tracking-[0.2em] text-gray-400">
-              Casa del Alfarero
+            <Logo className="w-10 h-10 grayscale opacity-40 mb-2" />
+            <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-gray-400">
+              Iglesia Casa del Alfarero
             </span>
           </div>
         </div>

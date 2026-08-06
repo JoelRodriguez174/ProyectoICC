@@ -56,7 +56,7 @@ function Footer() {
           3 de febrero 660, Villa Mercedes, San Luis, Argentina
         </p>
         <p className="text-white/60 text-xs md:text-xs font-bold uppercase tracking-[0.3em]">
-          (2657) 51-2384 • iglesiaICC@gmail.com
+          (2657) 51-2384 • iglesia660@gmail.com
         </p>
       </div>
     </footer>
