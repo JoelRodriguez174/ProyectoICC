@@ -93,48 +93,48 @@ function Header() {
       </div>
 
       <div 
-        className={`fixed top-0 right-0 z-50 h-full w-2/4 sm:w-80 max-w-xs bg-white/40 backdrop-blur-xl shadow-2xl transform transition-transform duration-500 ease-in-out lg:hidden flex flex-col ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}
+        className={`fixed top-0 right-0 z-50 h-full w-1/2 sm:w-80 max-w-xs bg-black/40 backdrop-blur-xl shadow-2xl transform transition-transform duration-500 ease-in-out lg:hidden flex flex-col ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}
       >
         <div className="flex flex-col h-full pt-24 px-10">
           <nav className="flex flex-col gap-4">
             <Link 
               to="/" 
-              className="text-sm font-black uppercase tracking-widest text-black hover:bg-black hover:text-white transition-all duration-300 p-3 rounded-sm border-b border-black/5 flex items-center justify-between"
+              className="text-sm font-black uppercase tracking-widest text-white hover:text-white transition-all duration-300 p-3 rounded-sm border-b border-black/5 flex items-center justify-between"
               onClick={closeMenu}
             >
               Inicio
             </Link>
             <Link 
               to="/sobre-nosotros" 
-              className="text-sm font-black uppercase tracking-widest text-black hover:bg-black hover:text-white transition-all duration-300 p-3 rounded-sm border-b border-black/5 flex items-center justify-between"
+              className="text-sm font-black uppercase tracking-widest text-white hover:text-white transition-all duration-300 p-3 rounded-sm border-b border-black/5 flex items-center justify-between"
               onClick={closeMenu}
             >
               Sobre Nosotros
             </Link>
             <Link 
               to="/ministerios" 
-              className="text-sm font-black uppercase tracking-widest text-black hover:bg-black hover:text-white transition-all duration-300 p-3 rounded-sm border-b border-black/5 flex items-center justify-between"
+              className="text-sm font-black uppercase tracking-widest text-white hover:text-white transition-all duration-300 p-3 rounded-sm border-b border-black/5 flex items-center justify-between"
               onClick={closeMenu}
             >
               Ministerios
             </Link>
             <Link 
               to="/ubicacion" 
-              className="text-sm font-black uppercase tracking-widest text-black hover:bg-black hover:text-white transition-all duration-300 p-3 rounded-sm border-b border-black/5 flex items-center justify-between"
+              className="text-sm font-black uppercase tracking-widest text-white hover:text-white transition-all duration-300 p-3 rounded-sm border-b border-black/5 flex items-center justify-between"
               onClick={closeMenu}
             >
               Ubicación
             </Link>
             <Link 
               to="/calendario" 
-              className="text-sm font-black uppercase tracking-widest text-black hover:bg-black hover:text-white transition-all duration-300 p-3 rounded-sm border-b border-black/5 flex items-center justify-between"
+              className="text-sm font-black uppercase tracking-widest text-white hover:text-white transition-all duration-300 p-3 rounded-sm border-b border-black/5 flex items-center justify-between"
               onClick={closeMenu}
             >
               Calendario
             </Link>
             <Link 
               to="/contacto" 
-              className="text-sm font-black uppercase tracking-widest text-black hover:bg-black hover:text-white transition-all duration-300 p-3 rounded-sm border-b border-black/5 flex items-center justify-between"
+              className="text-sm font-black uppercase tracking-widest text-white hover:text-white transition-all duration-300 p-3 rounded-sm border-b border-black/5 flex items-center justify-between"
               onClick={closeMenu}
             >
               Contacto
